@@ -3,8 +3,7 @@ const btn = document.querySelector('.nameBox');
 btn.addEventListener('click', attack) //on click event we attack
 
 class Spaceship {
-    constructor(hull, firePower,accuracy)
-    {
+    constructor(hull, firePower, accuracy) {
         this.hull = hull;
         this.firePower = firePower;
         this.accuracy = accuracy
@@ -22,23 +21,26 @@ class Spaceship {
         return this.accuracy;
     }
 
-    decreaseHealth(damage)
-    {
-        this.hull -= damage;
+    decreaseHealth(damage) {
+        if (this.hull > 0) {
+            this.hull -= damage;
+        } else {
+            console.log("Ship already defeated.")
+        }
     }
 
 }
 
 
-class MySpaceShip extends Spaceship{
+class MySpaceShip extends Spaceship {
     constructor() {
-        super(20,5,0.7)
+        super(20, 5, 0.7)
         this.retreat = false;
     }
 
 
     displayStats() {
-        console.log(`Hero current stats:\nHull: ${super.hull}\n\nFirepower: ${super.firePower}\n\nAccuracy: ${super.accuracy}`);
+        console.log(`Hero current stats:\nHull: ${this.hull}\n\nFirepower: ${this.firePower}\n\nAccuracy: ${this.accuracy}`);
     }
 
     isRetreat(rt) //create user input here using DOM
@@ -46,31 +48,160 @@ class MySpaceShip extends Spaceship{
         if(rt === true)
         {
             this.retreat = rt;
-            console.log("Successfully retreated.");
+            return this.retreat;
         } else
         {
-            console.log("Onto the next fight");
+            return this.retreat;
+        }
+
+
+}
+}
+
+class AlienShip extends Spaceship {
+    constructor() {
+        let hull = Math.floor(Math.random() * (20 - 3)) + 3;
+        let firePower = Math.floor(Math.random() * (4 - 2)) + 2;
+        let accuracy = Math.floor(10 * (Math.random() * (0.8 - 0.6) + 0.6)) / 10;
+
+        super(hull, firePower, accuracy);
+
+        this.isHeroHit = false;
+    }
+
+    displayStats() {
+        console.log(`Enemy current stats:\nHull: ${this.hull}\n\nFirepower: ${this.firePower}\n\nAccuracy: ${this.accuracy}`);
+    }
+
+    checkAccuracy() {
+        if (Math.random() < accuracy) {
+            console.log("You have been hit!");
+            this.isHeroHit = true;
+            return this.isHeroHit;
+        } else
+        {
+            console.log("We evaded the attack!")
+            return this.isHeroHit;
         }
     }
 
 }
 
-class AlienShip extends Spaceship {
+function attack() {
 
-    constructor() {
 
-        let hull = Math.floor(Math.random() * (20 - 3)) + 3;
-        let firePower = Math.floor(Math.random() * (4 - 2)) + 2;
-        let accuracy = Math.floor(10 * (Math.random() * (0.8 - 0.6) + 0.6))/10;
+    for (let i = 0; i < 6; i++) {
+        let hero = new MySpaceShip();
+        let enemy = new AlienShip();
+        let retreat = false;
+        let isHit = false;
 
-        super(hull,firePower,accuracy);
+        console.log(`***********************FIGHT NUMBER ${i + 1}***********************`)
+        hero.displayStats();
+        enemy.displayStats();
 
-    }
+        if (hero.getHull() > 0 && enemy.getHull() > 0) {
+            enemy.decreaseHealth(hero.getFirepower()); //attack enemy ship
+            console.log("Attacked enemy!")
+            console.log(`Hero hull: ${hero.getHull()}`);
+            console.log(`Enemy hull: ${enemy.getHull()}`);
 
-    displayStats() {
-        console.log(`Enemy current stats:\nHull: ${super.hull}\n\nFirepower: ${super.firePower}\n\nAccuracy: ${super.accuracy}`);
+            if(enemy.getHull() > 0)
+            {
+                console.log("Enemy is still alive. Do you want to retreat?") //add an alive boolean?
+                retreat = hero.isRetreat(false);
+            }
+
+            if (retreat === true) {
+                console.log("Retreating!")
+                break;
+            } else
+            {
+                console.log("Let us continue the fight!"); //fix this, vs crashed
+                if(retreat === false && enemy.getHull() > 0)
+                {
+                        isHit = enemy.checkAccuracy();
+                        if(isHit === true)
+                        {
+                        hero.decreaseHealth(enemy.getFirepower());
+                        console.log(`Hero hull: ${hero.getHull()}`);
+                        console.log(`Enemy hull: ${enemy.getHull()}`);
+                        }
+
+                        if (enemy.getHull() > 0) {
+                            console.log("Enemy is still alive. Do you want to retreat?") //add an alive boolean?
+                            retreat = hero.isRetreat(false);
+                        }
+                } else
+                {
+                    console.log("We won!")
+                }
+            }
+
+        }
+
+
     }
 }
+
+
+    //     if (enemy.getHull < 0) {
+        //         console.log("You won! Onto the next fight")
+        //     } else {
+        //         console.log("Enemy is still alive. Do you want to retreat?") //add an alive boolean?
+        //         retreat = hero.isRetreat(false);
+        //     }
+
+        //     if (retreat === true) {
+        //         console.log("Retreating!")
+        //         break;
+        //     } else {
+        //         if (hero.getHull() > 0 && enemy.getHull() > 0) {
+        //             enemy.checkAccuracy();
+        //             hero.decreaseHealth(enemy.getFirepower());
+        //             console.log(`Hero hull: ${hero.getHull()}`);
+        //             console.log(`Enemy hull: ${enemy.getHull()}`);
+        //             //check retreat.
+
+        //             if(enemy.getHull() > 0)
+        //             {
+        //             console.log("Retaliate in kind!");
+        //             enemy.decreaseHealth(hero.getFirepower());
+        //             console.log(`Hero hull: ${hero.getHull()}`);
+        //             console.log(`Enemy hull: ${enemy.getHull()}`);
+        //             console.log("Enemy is still alive. Do you want to retreat?") //add an alive boolean?
+        //             retreat = hero.isRetreat(false);
+        //             }
+
+        //         }
+        //     }
+
+        // }
+
+
+
+
+        // if(enemy.getHull == 0)
+        // {
+        //     console.log("You won!");
+        //     console.log(`Hero hull: ${hero.getHull()}`);
+        //     console.log(`Enemy hull: ${enemy.getHull()}`);
+        // } else
+        // {
+        //     console.log("Ship is destroyed ...");
+        //     console.log(`Hero hull: ${hero.getHull()}`);
+        //     console.log(`Enemy hull: ${enemy.getHull()}`);
+        // }
+
+
+
+
+
+
+
+
+
+
 
 // class AlienShipFactory{
 
@@ -128,51 +259,3 @@ class AlienShip extends Spaceship {
 
 
 //function attack
-
-
-function attack() {
-
-
-    for(let i = 0; i < 6; i++)
-    {
-        let hero = new MySpaceShip();
-        let enemy = new AlienShip();
-
-        if(hero.getHull() > 0 && enemy.getHull() > 0)
-        {
-            enemy.decreaseHealth(hero.getFirepower());
-            console.log("Attacked enemy. Do you want to retreat?")
-            hero.isRetreat(false);
-        }
-
-
-
-    }
-
-
-
-    // enemy.decreaseHealth(hero.getFirepower());
-
-    // if (enemy.getHull() > 0 && Math.random() < enemy.getAccuracy()) {
-    //     console.log('You have been hit!');
-    //     hero.decreaseHealth(enemy.getFirepower()); //decrease hero hull based on the enemy's firepower
-    //     console.log(hero.getHull());
-    //     console.log(enemy.getHull());
-    //     if (hero.getHull() > 0) {
-    //         console.log('Attack!')
-    //         enemy.decreaseHealth(hero.getFirepower())
-    //         console.log(hero.getHull());
-    //         console.log(enemy.getHull());
-    //         if (enemy.getHull() < 0) {
-    //             console.log("You won!")
-    //         } else {
-    //             console.log("Attack")
-    //             enemy.decreaseHealth(hero.getFirepower())
-    //             console.log(hero.getHull());
-    //             console.log(enemy.getHull());
-    //         }
-    //     }
-    // }
-
-
-}
