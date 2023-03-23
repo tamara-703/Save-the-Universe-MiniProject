@@ -7,16 +7,10 @@ const yesOption = document.createElement('button');
 const noOption = document.createElement('button');
 
 parent.style.display = 'none';
-let aliens = []
 
-//testing creating a random array of ships
-// for(let i = 0; i < 6; i++)
-// {
-//     generateAlienShip();
-// }
-// console.log(aliens);
-
+// heroBtn.addEventListener('click', attack) //on click event we attack
 attackBtn.addEventListener('click', attack);
+
 
 enemyBtn.addEventListener('click', generateAlienShip);
 
@@ -31,11 +25,8 @@ function generateAlienShip()
                               Firepower: ${factory.shipArray[0].firePower}\n
                               Accuracy: ${factory.shipArray[0].accuracy}`
 
-    aliens.push(factory);
-
     return factory;
 }
-
 
 class Spaceship {
     constructor(hull, firePower, accuracy) {
@@ -177,6 +168,8 @@ function attack() {
         {
             window.alert('Let us continue the fight!');
 
+            parent.style.display = 'none';
+
             if(factory.shipArray[0].getHull() <= 0)
             {
                 window.alert("Wait. We already won! Flying to victory!")
@@ -188,19 +181,82 @@ function attack() {
                     hero.decreaseHealth(factory.shipArray[0].getFirepower());
                     console.log(`Hero hull: ${hero.getHull()}`);
                     console.log(`Enemy hull: ${factory.shipArray[0].getHull()}`);
+                    //parent.style.visibility = 'visible';
                 } else {
                     factory.shipArray[0].decreaseHealth(hero.getFirepower());
                     console.log(`Hero hull: ${hero.getHull()}`);
                     console.log(`Enemy hull: ${factory.shipArray[0].getHull()}`);
+                    // parent.style.visibility = 'visible';
                 }
             }
         })
 
     }
 
+
+
     if (factory.shipArray[0].getHull() <= 0) {
         console.log("We won!")
     }
 
+
+    // for (let i = 0; i < factory.shipArray[0].getHull(); i++) {
+    //     isHit = factory.shipArray[0].checkAccuracy();
+    //     if (isHit === true) {
+    //         hero.decreaseHealth(factory.shipArray[0].getFirepower());
+    //         console.log(`Hero hull: ${hero.getHull()}`);
+    //         console.log(`Enemy hull: ${factory.shipArray[0].getHull()}`);
+    //     } else {
+    //         factory.shipArray[0].decreaseHealth(hero.getFirepower());
+    //         console.log(`Hero hull: ${hero.getHull()}`);
+    //         console.log(`Enemy hull: ${factory.shipArray[0].getHull()}`);
+    //     }
+
+    // }
+    // for (let i = 0; i < 6; i++) {
+
+
+
+
+    //     console.log(`***********************FIGHT NUMBER ${i + 1}***************************`)
+    //     hero.displayStats();
+    //     factory.shipArray[0].displayStats();
+
+    //     for (let i = 0; i < factory.shipArray[0].getHull(); i++) {
+    //         if (hero.getHull() > 0 && factory.shipArray[0].getHull() > 0) {
+    //             factory.shipArray[0].decreaseHealth(hero.getFirepower()); //attack enemy ship
+    //             console.log("Attacked enemy!")
+    //             console.log(`Hero hull: ${hero.getHull()}`);
+    //             console.log(`Enemy hull: ${factory.shipArray[0].getHull()}`);
+    //         }
+
+    //         if (factory.shipArray[0].getHull() > 0) {
+    //             console.log("Enemy is still alive. Do you want to retreat?") //add an alive boolean?
+    //             retreat = hero.isRetreat(false);
+    //         }
+
+    //         if (retreat === true) {
+    //             console.log("Retreating!")
+    //             break;
+    //         } else if (retreat === false && factory.shipArray[0].getHull() > 0) {
+    //             for (let i = 0; i < factory.shipArray[0].getHull(); i++) {
+    //                 isHit = factory.shipArray[0].checkAccuracy();
+    //                 if (isHit === true) {
+    //                     hero.decreaseHealth(factory.shipArray[0].getFirepower());
+    //                     console.log(`Hero hull: ${hero.getHull()}`);
+    //                     console.log(`Enemy hull: ${factory.shipArray[0].getHull()}`);
+    //                 } else {
+    //                     factory.shipArray[0].decreaseHealth(hero.getFirepower());
+    //                     console.log(`Hero hull: ${hero.getHull()}`);
+    //                     console.log(`Enemy hull: ${factory.shipArray[0].getHull()}`);
+    //                 }
+
+    //             }
+
+    //         }
+    //     }
+
+
+    // }
 
 }
