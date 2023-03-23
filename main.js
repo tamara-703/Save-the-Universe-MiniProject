@@ -25,7 +25,7 @@ class Spaceship {
         if (this.hull > 0) {
             this.hull -= damage;
         } else {
-            console.log("Ship already defeated.")
+            console.log("Ship already defeated.");
         }
     }
 
@@ -45,17 +45,16 @@ class MySpaceShip extends Spaceship {
 
     isRetreat(rt) //create user input here using DOM
     {
-        if(rt === true)
-        {
+        if (rt === true) {
             this.retreat = rt;
             return this.retreat;
-        } else
-        {
+        } else {
+            console.log("Let us continue the fight!");
             return this.retreat;
         }
 
 
-}
+    }
 }
 
 class AlienShip extends Spaceship {
@@ -74,21 +73,23 @@ class AlienShip extends Spaceship {
     }
 
     checkAccuracy() {
-        if (Math.random() < accuracy) {
+        if (Math.random() < this.accuracy) {
             console.log("You have been hit!");
             this.isHeroHit = true;
             return this.isHeroHit;
-        } else
-        {
-            console.log("We evaded the attack!")
+        } else {
+            console.log("We evaded the attack! Charge!")
+            this.isHeroHit = false;
             return this.isHeroHit;
         }
     }
 
 }
 
-function attack() {
 
+//AlienShip factory will generate an alien ship each time enemy button is clicked
+
+function attack() {
 
     for (let i = 0; i < 6; i++) {
         let hero = new MySpaceShip();
@@ -100,14 +101,15 @@ function attack() {
         hero.displayStats();
         enemy.displayStats();
 
-        if (hero.getHull() > 0 && enemy.getHull() > 0) {
-            enemy.decreaseHealth(hero.getFirepower()); //attack enemy ship
-            console.log("Attacked enemy!")
-            console.log(`Hero hull: ${hero.getHull()}`);
-            console.log(`Enemy hull: ${enemy.getHull()}`);
+        for (let i = 0; i < enemy.getHull(); i++) {
+            if (hero.getHull() > 0 && enemy.getHull() > 0) {
+                enemy.decreaseHealth(hero.getFirepower()); //attack enemy ship
+                console.log("Attacked enemy!")
+                console.log(`Hero hull: ${hero.getHull()}`);
+                console.log(`Enemy hull: ${enemy.getHull()}`);
+            }
 
-            if(enemy.getHull() > 0)
-            {
+            if (enemy.getHull() > 0) {
                 console.log("Enemy is still alive. Do you want to retreat?") //add an alive boolean?
                 retreat = hero.isRetreat(false);
             }
@@ -115,34 +117,35 @@ function attack() {
             if (retreat === true) {
                 console.log("Retreating!")
                 break;
-            } else
-            {
-                console.log("Let us continue the fight!"); //fix this, vs crashed
-                if(retreat === false && enemy.getHull() > 0)
-                {
-                        isHit = enemy.checkAccuracy();
-                        if(isHit === true)
-                        {
+            } else if (retreat === false && enemy.getHull() > 0) {
+                for (let i = 0; i < enemy.getHull(); i++) {
+                    isHit = enemy.checkAccuracy();
+                    if (isHit === true) {
                         hero.decreaseHealth(enemy.getFirepower());
                         console.log(`Hero hull: ${hero.getHull()}`);
                         console.log(`Enemy hull: ${enemy.getHull()}`);
-                        }
+                    } else {
+                        enemy.decreaseHealth(hero.getFirepower());
+                        console.log(`Hero hull: ${hero.getHull()}`);
+                        console.log(`Enemy hull: ${enemy.getHull()}`);
+                    }
 
-                        if (enemy.getHull() > 0) {
-                            console.log("Enemy is still alive. Do you want to retreat?") //add an alive boolean?
-                            retreat = hero.isRetreat(false);
-                        }
-                } else
-                {
-                    console.log("We won!")
                 }
-            }
 
+
+            }
         }
 
-
+        if (enemy.getHull() < 0) {
+            console.log("We won!")
+        }
     }
+
 }
+
+
+
+
 
 
     //     if (enemy.getHull < 0) {
