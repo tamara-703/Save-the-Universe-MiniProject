@@ -1,6 +1,9 @@
-const btn = document.querySelector('.nameBox');
+const heroBtn = document.querySelector('.nameBox');
+const enemyBtn = document.querySelector('.enemyBox')
 
-btn.addEventListener('click', attack) //on click event we attack
+heroBtn.addEventListener('click', attack) //on click event we attack
+
+enemyBtn.addEventListener('click',generateAlienShip);
 
 class Spaceship {
     constructor(hull, firePower, accuracy) {
@@ -88,6 +91,38 @@ class AlienShip extends Spaceship {
 
 
 //AlienShip factory will generate an alien ship each time enemy button is clicked
+class AlienShipFactory {
+    constructor()
+    {
+        this.shipArray = [];
+    }
+
+    generateAlienShip()
+    {
+        const alienShip = new AlienShip();
+        this.shipArray.push(alienShip);
+    }
+}
+
+function generateAlienShip()
+{
+    const factory = new AlienShipFactory();
+    factory.generateAlienShip();
+
+    console.log(factory.shipArray[0])
+
+    const parent = document.querySelector('.right');
+    const enemyImgEl = document.querySelector('.enemyImage');
+    const child = document.querySelector('.enemyStats');
+
+    for(let i = 0; i < factory.shipArray.length; i++)
+    {
+        child.textContent = factory.shipArray[i];
+    }
+
+
+}
+
 
 function attack() {
 
