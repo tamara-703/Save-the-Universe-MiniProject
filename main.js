@@ -1,3 +1,4 @@
+//global variables
 const heroBtn = document.querySelector('.nameBox');
 const enemyBtn = document.querySelector('#enemyBox');
 const attackBtn = document.querySelector('.attack-btn');
@@ -12,17 +13,12 @@ const noOption = document.createElement('button');
 parent.style.display = 'none';
 let aliens = []
 
-//testing creating a random array of ships
-// for(let i = 0; i < 6; i++)
-// {
-//     generateAlienShip();
-// }
-// console.log(aliens);
-
+//Event listeners
 attackBtn.addEventListener('click', attack);
 
 enemyBtn.addEventListener('click', generateAlienShip);
 
+//generates an array of alien ships whenever the function is called
 function generateAlienShip()
 {
     const factory = new AlienShipFactory();
@@ -37,7 +33,7 @@ function generateAlienShip()
     return factory;
 }
 
-
+//template for generating both hero and alien spacehsips
 class Spaceship {
     constructor(hull, firePower, accuracy) {
         this.hull = hull;
@@ -67,7 +63,7 @@ class Spaceship {
 
 }
 
-
+//Hero ship class
 class MySpaceShip extends Spaceship {
     constructor() {
         super(20, 5, 0.7)
@@ -93,6 +89,7 @@ class MySpaceShip extends Spaceship {
     }
 }
 
+//Alien ship class
 class AlienShip extends Spaceship {
     constructor() {
         let hull = Math.floor(Math.random() * (10 - 3)) + 3;
