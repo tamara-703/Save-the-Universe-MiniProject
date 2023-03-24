@@ -2,9 +2,12 @@ const heroBtn = document.querySelector('.nameBox');
 const enemyBtn = document.querySelector('#enemyBox');
 const attackBtn = document.querySelector('.attack-btn');
 
+const child = document.querySelector('.enemyStats');
+const displayStatsEl = document.querySelector('#display-info')
 const parent = document.querySelector(".retreatOption");
 const yesOption = document.createElement('button');
 const noOption = document.createElement('button');
+
 
 parent.style.display = 'none';
 let aliens = []
@@ -24,8 +27,6 @@ function generateAlienShip()
 {
     const factory = new AlienShipFactory();
     factory.generateAlienShip();
-
-    const child = document.querySelector('.enemyStats');
 
     child.textContent = `Hull: ${factory.shipArray[0].hull}\n
                               Firepower: ${factory.shipArray[0].firePower}\n
@@ -94,7 +95,7 @@ class MySpaceShip extends Spaceship {
 
 class AlienShip extends Spaceship {
     constructor() {
-        let hull = Math.floor(Math.random() * (20 - 3)) + 3;
+        let hull = Math.floor(Math.random() * (10 - 3)) + 3;
         let firePower = Math.floor(Math.random() * (4 - 2)) + 2;
         let accuracy = Math.floor(10 * (Math.random() * (0.8 - 0.6) + 0.6)) / 10;
 
@@ -142,12 +143,17 @@ function attack() {
     let hero = new MySpaceShip();
     const factory = generateAlienShip();
 
+    displayStatsEl.textContent = child.textContent;
+
+    displayStatsEl.setAttribute('class','display-stats');
+
+
     let retreat = false;
     let isHit = false;
 
     if (hero.getHull() > 0 && factory.shipArray[0].getHull() > 0) {
         factory.shipArray[0].decreaseHealth(hero.getFirepower()); //attack enemy ship
-        window.alert(`Attacked enemy!\nHero hull: ${hero.getHull()}\nEnemy hull: ${factory.shipArray[0].getHull()}`)
+        displayStatsEl.textContent = `Attacked enemy!\n\n\nHero hull: ${hero.getHull()}\n\n\nEnemy hull: ${factory.shipArray[0].getHull()}`;
     }
 
     if (factory.shipArray[0].getHull() > 0) {
@@ -175,21 +181,25 @@ function attack() {
 
         noOption.addEventListener('click',function(event)
         {
-            window.alert('Let us continue the fight!');
+
+                retreat = false;
+                displayStatsEl.textContent = `Let us continue the fight!\n\n\nHero hull: ${hero.getHull()}\n\n\nEnemy hull: ${factory.shipArray[0].getHull()}`;
 
             if(factory.shipArray[0].getHull() <= 0)
             {
-                window.alert("Wait. We already won! Flying to victory!")
+                alert(`Wait we already won!\n\n\nHero hull: ${hero.getHull()}\n\n\nEnemy hull: ${factory.shipArray[0].getHull()}`);
                 location.reload();
             } else if (retreat === false && factory.shipArray[0].getHull() > 0) {
-                console.log("You heard him men. Charge!");
+                displayStatsEl.textContent = `You heard him men! Charge!\n\n\nHero hull: ${hero.getHull()}\n\n\nEnemy hull: ${factory.shipArray[0].getHull()}`;
                 isHit = factory.shipArray[0].checkAccuracy();
                 if (isHit === true) {
                     hero.decreaseHealth(factory.shipArray[0].getFirepower());
+                    displayStatsEl.textContent = `You have been hit!\n\n\nHero hull: ${hero.getHull()}\n\n\nEnemy hull: ${factory.shipArray[0].getHull()}`;
                     console.log(`Hero hull: ${hero.getHull()}`);
                     console.log(`Enemy hull: ${factory.shipArray[0].getHull()}`);
                 } else {
                     factory.shipArray[0].decreaseHealth(hero.getFirepower());
+                    displayStatsEl.textContent = `We evaded the attack!!\n\n\nHero hull: ${hero.getHull()}\n\n\nEnemy hull: ${factory.shipArray[0].getHull()}`;
                     console.log(`Hero hull: ${hero.getHull()}`);
                     console.log(`Enemy hull: ${factory.shipArray[0].getHull()}`);
                 }
@@ -199,7 +209,7 @@ function attack() {
     }
 
     if (factory.shipArray[0].getHull() <= 0) {
-        console.log("We won!")
+        displayStatsEl.textContent = `We won!\n\n\nHero hull: ${hero.getHull()}\n\n\nEnemy hull: ${factory.shipArray[0].getHull()}`;
     }
 
 

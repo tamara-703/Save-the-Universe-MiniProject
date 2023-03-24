@@ -1,4 +1,4 @@
-.bodyContainer{
+.bodyContainer {
     display: flex;
 
     justify-content: space-between;
@@ -10,27 +10,26 @@
     background-color: black;
     color: white;
 }
-*{
+
+* {
     margin: 0;
     padding: 0;
 }
 
-.mainCharacterView{
+.mainCharacterView {
 
-width: 50%;
-display: flex;
-flex-direction: column;
-justify-content: space-around;
-align-items: center;
-}
-.left{
-
-}
-.right{
-
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
 }
 
-.nameBox{
+.left {}
+
+.right {}
+
+.nameBox {
     border: 1px solid black;
     width: 25vw;
     height: 10vh;
@@ -42,12 +41,13 @@ align-items: center;
     box-shadow: 0px 0px 20px 10px white;
 
 }
-.playerImage{
+
+.playerImage {
     border: 1px solidblack;
     width: 30vw;
     height: 40vh;
     background-image: url("/images/space_hero.gif");
-    background-size: cover ;
+    background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     box-shadow: 0px 0px 20px 10px white;
@@ -55,7 +55,8 @@ align-items: center;
 
 
 }
-.playerStats{
+
+.playerStats {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -69,12 +70,13 @@ align-items: center;
 
 
 }
-.enemyImage{
+
+.enemyImage {
     border: 1px solidblack;
     width: 30vw;
     height: 35vh;
     background-image: url("/images/enemy.gif");
-    background-size: cover ;
+    background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     box-shadow: 0px 0px 20px 10px white;
@@ -82,7 +84,8 @@ align-items: center;
 
 
 }
-.enemyStats{
+
+.enemyStats {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -109,7 +112,8 @@ align-items: center;
 
 }
 
-.yes-btn, .no-btn {
+.yes-btn,
+.no-btn {
     border: 1px solid black;
     width: 25vw;
     height: 10vh;
@@ -123,6 +127,16 @@ align-items: center;
     width: 25vw;
     height: 10vh;
     display: block;
+    font-size: 2em;
+    box-shadow: 0px 0px 20px 10px white;
+}
+
+.display-stats {
+    border: '1px solid black';
+    display: 'block';
+    color: 'black';
+    background-color: 'white';
+    width: 500px;
     font-size: 2em;
     box-shadow: 0px 0px 20px 10px white;
 }
